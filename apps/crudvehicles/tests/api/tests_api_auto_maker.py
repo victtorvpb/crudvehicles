@@ -9,14 +9,14 @@ from django.utils.http import urlencode
 class TestAutoMakerListApi(TestCase):
     def setUp(self):
 
-        print('---------------------------')
         for i in range(1, 4):
             AutoMaker.objects.create(
                 name='Renault {}'.format(i))
 
-        AutoMaker.objects.create(
+        self.object_get = AutoMaker.objects.create(
             name='Ford'
         )
+
         self.objects_list = AutoMaker.objects.all()
         self.objects_filter = AutoMaker.objects.filter(
             name__contains='Renault')
@@ -41,6 +41,17 @@ class TestAutoMakerListApi(TestCase):
         response = self.client.get(url)
         auto_maker = self.objects_filter
         serializer = AutoMakerSerializer(auto_maker, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_get_auto_maker(self):
+        url = reverse('vehicles:AutoMaker-detail',
+                      kwargs={'pk': self.object_get.pk})
+
+        response = self.client.get(url)
+        auto_maker = self.object_get
+        serializer = AutoMakerSerializer(auto_maker)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
