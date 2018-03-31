@@ -7,10 +7,12 @@ name = "pypi"
 "flake8" = "*"
 pylint = "*"
 "autopep8" = "*"
+ipython = "*"
 
 [packages]
 Django = "*"
 pytest-django = "*"
+"dj.choices" = "*"
 
 [requires]
 python_version = "3.6"
