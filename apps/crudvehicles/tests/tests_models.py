@@ -22,25 +22,26 @@ class TestModels(TestCase):
             automaker=self.auto_maker
         )
 
-        self.vehicle_model_car = VehicleModel.objects.create(
+        self.vehicle_model_motorcycle = VehicleModel.objects.create(
             name='CG',
-            model=ModelsTypesChoices.car,
+            model=ModelsTypesChoices.motorcycle,
             engine=150,
             automaker=self.auto_maker
         )
 
     def test_insert_model_auto_maker(self):
 
-        self.assertEqual(self.auto_maker.name, 'Ford')
+        self.assertEqual(self.auto_maker.name, 'Honda')
 
     def test_insert_model_vehicle_model_car(self):
 
-        self.assertEqual(self.auto_maker.name, 'Civic')
-        self.assertEqual(self.auto_maker.engine, 1.0)
-        self.assertEqual(self.auto_maker.model, ModelsTypesChoices.car)
+        self.assertEqual(self.vehicle_model_car.name, 'Civic')
+        self.assertEqual(self.vehicle_model_car.engine, 1.0)
+        self.assertEqual(self.vehicle_model_car.model, ModelsTypesChoices.car)
 
     def test_insert_model_vehicle_model_motorcycle(self):
 
-        self.assertEqual(self.auto_maker.name, 'CG')
-        self.assertEqual(self.auto_maker.engine, 150)
-        self.assertEqual(self.auto_maker.model, ModelsTypesChoices.motorcycle)
+        self.assertEqual(self.vehicle_model_motorcycle.name, 'CG')
+        self.assertEqual(self.vehicle_model_motorcycle.engine, 150)
+        self.assertEqual(self.vehicle_model_motorcycle.model,
+                         ModelsTypesChoices.motorcycle)
