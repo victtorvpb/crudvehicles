@@ -9,8 +9,8 @@ pylint = "*"
 "autopep8" = "*"
 
 [packages]
-django = "*"
-coverage = "*"
+Django = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.6"
