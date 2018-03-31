@@ -12,11 +12,6 @@ class AutoMaker(models.Model):
 
 
 class VehicleModel(models.Model):
-    name = models.CharField(
-        max_length=100,
-        blank=False,
-        null=False)
-
     model = ChoiceField(
         choices=ModelsTypesChoices,
         default=ModelsTypesChoices.car)
@@ -27,8 +22,26 @@ class VehicleModel(models.Model):
 
     automaker = models.ForeignKey(
         AutoMaker,
-        related_name='autoMaker',
+        related_name='auto_maker',
         on_delete=models.PROTECT)
-    
+
     def __str__(self):
-        return self.name
+        return 'AutoMaker {} - engine {} - model - {}'.format(
+            self.automaker.name, self.engine, self.model)
+
+
+class Vehicle(models.Model):
+
+    name = models.CharField(
+        max_length=100,
+        blank=False,
+        null=False)
+
+    color = models.CharField(
+        max_length=30,
+        blank=False,
+        null=False)
+    model = models.ForeignKey(
+        VehicleModel,
+        related_name='vehicle_model',
+        on_delete=models.PROTECT)
