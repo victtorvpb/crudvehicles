@@ -13,6 +13,7 @@ ipython = "*"
 Django = "*"
 pytest-django = "*"
 "dj.choices" = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.6"
