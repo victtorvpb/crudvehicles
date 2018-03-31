@@ -67,3 +67,4 @@ class TestModels(TestCase):
         self.assertEqual(self.vehicle_car.name, 'Civic')
         self.assertEqual(self.vehicle_car.color, 'Red')
         self.assertEqual(self.vehicle_car.model, self.vehicle_model_car)
+    

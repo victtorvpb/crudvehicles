@@ -40,11 +40,14 @@ DJANGO_APPS = [
 ]
 
 
-THIRD_PARTY_APPS = [    
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'rest_framework_filters',
+    'django_filters'
 ]
 
 LOCAL_APPS = [
-    'apps.crudvehicles'
+    'apps.crudvehicles',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -132,3 +135,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework_filters.backends.DjangoFilterBackend',
+    )
+}
