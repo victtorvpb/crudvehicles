@@ -255,7 +255,6 @@ class TestVehicleModelUpdateApi(TestCase):
         self.assertEqual(response.data, serializer.data)
 
 
-
 class TestVehicleModelDeleteApi(TestCase):
 
     def setUp(self):
@@ -276,7 +275,7 @@ class TestVehicleModelDeleteApi(TestCase):
             engine=150,
             automaker=auto_maker
         )
-    
+
     def test_update_vehicle_model_car(self):
 
         url = reverse('vehicles:VehicleModel-detail',
@@ -285,7 +284,8 @@ class TestVehicleModelDeleteApi(TestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        vehicle_model = get_object_or_None(VehicleModel, id=self.model_car_delete.pk)        
+        vehicle_model = get_object_or_None(
+            VehicleModel, id=self.model_car_delete.pk)
         self.assertEqual(None, vehicle_model)
 
         response = self.client.get(url)
@@ -299,7 +299,8 @@ class TestVehicleModelDeleteApi(TestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        vehicle_model = get_object_or_None(VehicleModel, id=self.model_motorcycle_delete.pk)        
+        vehicle_model = get_object_or_None(
+            VehicleModel, id=self.model_motorcycle_delete.pk)
         self.assertEqual(None, vehicle_model)
 
         response = self.client.get(url)
