@@ -14,6 +14,8 @@
 
 ## Execute project
 
+*`python manage.py loaddata fixture/dump.json`
+
 * `python manage.py runserver`
 
 * Access [http://localhost:8000/api/](http://localhost:8000/api/) for list all urls
