@@ -38,6 +38,12 @@ class TestVehicleModelMotorcycleListApi(TestCase):
         self.objects_filter = VehicleModel.objects.filter(
             name__contains='Clio')
 
+        self.objects_filter_engine_lte = VehicleModel.objects.filter(
+            engine__lte=1.2)
+
+        self.objects_filter_engine_gte = VehicleModel.objects.filter(
+            engine__gte=1.2)
+
     def test_list_vehicle_model(self):
         url = reverse('vehicles:VehicleModel-list')
         response = self.client.get(url)
@@ -47,7 +53,7 @@ class TestVehicleModelMotorcycleListApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-    def test_filter_vehicle_mode(self):
+    def test_filter_vehicle_model(self):
         url = reverse('vehicles:VehicleModel-list')
 
         query = urlencode({
@@ -62,13 +68,41 @@ class TestVehicleModelMotorcycleListApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-    def test_get_vehicle_mode(self):
+    def test_get_vehicle_model(self):
         url = reverse('vehicles:VehicleModel-detail',
                       kwargs={'pk': self.object_get.pk})
 
         response = self.client.get(url)
         vehicle_model = self.object_get
         serializer = VehicleModelSerializer(vehicle_model)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_filter_engine_less(self):
+        url = reverse('vehicles:VehicleModel-list')
+        query = urlencode({
+            'engine__lte': 1.2
+        })
+
+        url = '{}?{}'.format(url, query)
+        response = self.client.get(url)
+        vehicle_model = self.objects_filter_engine_lte
+        serializer = VehicleModelSerializer(vehicle_model, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_filter_engine_greater(self):
+        url = reverse('vehicles:VehicleModel-list')
+        query = urlencode({
+            'engine__gte': 1.2
+        })
+
+        url = '{}?{}'.format(url, query)
+        response = self.client.get(url)
+        vehicle_model = self.objects_filter_engine_gte
+        serializer = VehicleModelSerializer(vehicle_model, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
@@ -102,6 +136,11 @@ class TestVehicleModelCarListApi(TestCase):
         self.objects_list = VehicleModel.objects.all()
         self.objects_filter = VehicleModel.objects.filter(
             name__contains='Clio')
+        self.objects_filter_engine_lte = VehicleModel.objects.filter(
+            engine__lte=1.2)
+
+        self.objects_filter_engine_gte = VehicleModel.objects.filter(
+            engine__gte=1.2)
 
     def test_list_vehicle_model(self):
         url = reverse('vehicles:VehicleModel-list')
@@ -112,7 +151,7 @@ class TestVehicleModelCarListApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-    def test_filter_vehicle_mode(self):
+    def test_filter_vehicle_model(self):
         url = reverse('vehicles:VehicleModel-list')
 
         query = urlencode({
@@ -127,13 +166,41 @@ class TestVehicleModelCarListApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-    def test_get_vehicle_mode(self):
+    def test_get_vehicle_model(self):
         url = reverse('vehicles:VehicleModel-detail',
                       kwargs={'pk': self.object_get.pk})
 
         response = self.client.get(url)
         vehicle_model = self.object_get
         serializer = VehicleModelSerializer(vehicle_model)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_filter_engine_less(self):
+        url = reverse('vehicles:VehicleModel-list')
+        query = urlencode({
+            'engine__lte': 1.2
+        })
+
+        url = '{}?{}'.format(url, query)
+        response = self.client.get(url)
+        vehicle_model = self.objects_filter_engine_lte
+        serializer = VehicleModelSerializer(vehicle_model, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_filter_engine_greater(self):
+        url = reverse('vehicles:VehicleModel-list')
+        query = urlencode({
+            'engine__gte': 1.2
+        })
+
+        url = '{}?{}'.format(url, query)
+        response = self.client.get(url)
+        vehicle_model = self.objects_filter_engine_gte
+        serializer = VehicleModelSerializer(vehicle_model, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
@@ -146,7 +213,7 @@ class TestVehicleModelCreateApi(TestCase):
             name='Honda'
         )
 
-    def test_create_vehicle_mode_car(self):
+    def test_create_vehicle_model_car(self):
 
         data = {
             'name': 'Civic',
@@ -165,7 +232,7 @@ class TestVehicleModelCreateApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, serializer.data)
 
-    def test_create_vehicle_mode_motorcycle(self):
+    def test_create_vehicle_model_motorcycle(self):
 
         data = {
             'name': 'CG',
