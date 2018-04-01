@@ -5,6 +5,7 @@
 * [pipenv](https://docs.pipenv.org/)
 
 ## Environment
+* `export PIPENV_VENV_IN_PROJECT=1`
 * `pipenv --python 3.6`
 * `pipenv shell`
 * `pip install -r requirements.txt`
