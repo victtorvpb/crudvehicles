@@ -23,15 +23,15 @@ class TestVehicleListApi(TestCase):
         )
 
         for i in range(1, 4):
-            
+
             Vehicle.objects.create(
-                model= vehicle_model,
+                model=vehicle_model,
                 color='Branco',
                 mileage=i*100
             )
 
-        self.object_get =Vehicle.objects.create(
-            model= vehicle_model,
+        self.object_get = Vehicle.objects.create(
+            model=vehicle_model,
             color='Preto',
             mileage=1300
         )
@@ -49,7 +49,7 @@ class TestVehicleListApi(TestCase):
 
         self.objects_filter_engine_gte = Vehicle.objects.filter(
             model__engine__gte=1.2)
-        
+
         self.objects_filter_mileage_lte = Vehicle.objects.filter(
             mileage__lte=100)
 
@@ -76,7 +76,7 @@ class TestVehicleListApi(TestCase):
         response = self.client.get(url)
         vehicle_model = self.objects_filter_name
         serializer = VehicleSerializer(vehicle_model, many=True)
-        
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
@@ -161,3 +161,115 @@ class TestVehicleListApi(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
+
+
+class TestVehicleCreateApi(TestCase):
+
+    def setUp(self):
+        auto_maker = AutoMaker.objects.create(
+            name='Renault'
+        )
+        self.vehicle_model = VehicleModel.objects.create(
+            name='Clio',
+            model=ModelsTypesChoices.motorcycle,
+            engine=1.2,
+            automaker=auto_maker,
+        )
+
+    def test_create_vehicle(self):
+
+        data = {
+            'color': 'red',
+            'model': self.vehicle_model.id,
+            'mileage': 3000,
+        }
+
+        url = reverse('vehicles:Vehicle-list')
+
+        response = self.client.post(url, data=data)
+
+        vehicle = Vehicle.objects.get(color=data.get(
+            'color'), model=self.vehicle_model, mileage=data.get('mileage'))
+        serializer = VehicleSerializer(vehicle)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data, serializer.data)
+
+
+class TestVehicleUpdateApi(TestCase):
+
+    def setUp(self):
+        auto_maker = AutoMaker.objects.create(
+            name='Renault'
+        )
+        vehicle_model = VehicleModel.objects.create(
+            name='Clio',
+            model=ModelsTypesChoices.motorcycle,
+            engine=1.2,
+            automaker=auto_maker,
+        )
+
+        self.vehicle_update = Vehicle.objects.create(
+            model=vehicle_model,
+            color='Preto',
+            mileage=1300
+        )
+
+    def test_update_vehicle(self):
+
+        url = reverse('vehicles:Vehicle-detail',
+                      kwargs={'pk': self.vehicle_update.pk})
+
+        data = {
+            'color': 'Blanco',
+            'mileage': 5000,
+        }
+
+        new_data = json.dumps(data)
+
+        response = self.client.patch(
+            url, data=new_data, content_type='application/json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        vehicle = Vehicle.objects.get(
+            color=data.get('color'),
+            mileage=data.get('mileage')
+        )
+        serializer = VehicleSerializer(vehicle)
+        self.assertEqual(response.data, serializer.data)
+
+
+class TestVehicleDeleteApi(TestCase):
+
+    def setUp(self):
+        auto_maker = AutoMaker.objects.create(
+            name='Renault'
+        )
+        vehicle_model = VehicleModel.objects.create(
+            name='Clio',
+            model=ModelsTypesChoices.motorcycle,
+            engine=1.2,
+            automaker=auto_maker,
+        )
+
+        self.vehicle_delete = Vehicle.objects.create(
+            model=vehicle_model,
+            color='Preto',
+            mileage=1300
+        )
+    
+    def test_delete_vehicle(self):
+
+        url = reverse('vehicles:Vehicle-detail',
+                      kwargs={'pk': self.vehicle_delete.pk})
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        vehicle = get_object_or_None(
+            Vehicle, id=self.vehicle_delete.pk)
+        self.assertEqual(None, vehicle)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
