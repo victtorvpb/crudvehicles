@@ -5,9 +5,10 @@
 * [pipenv](https://docs.pipenv.org/)
 
 ## Environment
+* `export PIPENV_VENV_IN_PROJECT=1`
 * `pipenv --python 3.6`
 * `pipenv shell`
-* `pip install -r requirements.txt`
+* `pipenv install`
 
 * `python manage.py migrate`
 
@@ -18,4 +19,4 @@
 * Access [http://localhost:8000/api/](http://localhost:8000/api/) for list all urls
 
 ## Execute test
-* `make run-test`
+* `pytest -v `
