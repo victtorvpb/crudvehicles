@@ -5,6 +5,7 @@ from apps.crudvehicles.serializers import VehicleModelSerializer
 from django.urls import reverse
 from rest_framework import status
 from django.utils.http import urlencode
+import json
 
 class TestVehicleModelMotorcycleListApi(TestCase):
     def setUp(self):
@@ -70,6 +71,7 @@ class TestVehicleModelMotorcycleListApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
+
 class TestVehicleModelCarListApi(TestCase):
     def setUp(self):
 
@@ -132,5 +134,52 @@ class TestVehicleModelCarListApi(TestCase):
         serializer = VehicleModelSerializer(vehicle_mode)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+
+class TestVehicleModelCreateApi(TestCase):
+
+    def setUp(self):
+        self.auto_maker = AutoMaker.objects.create(
+            name='Honda'
+        )
+
+    def test_create_vehicle_mode_car(self):
+
+        data = {
+            'name': 'Civic',
+            'model': ModelsTypesChoices.car.id,
+            'engine': 1.0,
+            'automaker': self.auto_maker.pk
+        }
+
+        url = reverse('vehicles:VehicleModel-list')
+
+        response = self.client.post(url, data=data)
+        
+        vehicle_mode = VehicleModel.objects.get(name=data.get('name'))
+        serializer = VehicleModelSerializer(vehicle_mode)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data, serializer.data)
+
+
+    def test_create_vehicle_mode_motorcycle(self):
+
+        data = {
+            'name': 'Civic',
+            'model': ModelsTypesChoices.motorcycle.id,
+            'engine': 1.0,
+            'automaker': self.auto_maker.pk
+        }
+
+        url = reverse('vehicles:VehicleModel-list')
+
+        response = self.client.post(url, data=data)
+        
+        vehicle_mode = VehicleModel.objects.get(name=data.get('name'))
+        serializer = VehicleModelSerializer(vehicle_mode)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, serializer.data)
 

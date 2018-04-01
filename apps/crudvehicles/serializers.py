@@ -16,10 +16,13 @@ class AutoMakerSerializer(serializers.ModelSerializer):
 class VehicleModelSerializer(serializers.ModelSerializer):
 
     repr = serializers.SerializerMethodField()
+    # model = serializers.SerializerMethodField()
 
     class Meta:
         model = VehicleModel
         fields = ('id', 'name', 'model', 'engine', 'automaker', 'repr')
 
     def get_repr(self, obj):
-        return str(obj)
+        return 'AutoMaker {} - engine {} - model - {}'.format(
+            obj.automaker.name, obj.engine, obj.get_model_display())
+
