@@ -12,6 +12,12 @@ class AutoMaker(models.Model):
 
 
 class VehicleModel(models.Model):
+    
+    name = models.CharField(
+        max_length=100,
+        blank=False,
+        null=False)
+
     model = ChoiceField(
         choices=ModelsTypesChoices,
         default=ModelsTypesChoices.car)
@@ -31,11 +37,6 @@ class VehicleModel(models.Model):
 
 
 class Vehicle(models.Model):
-
-    name = models.CharField(
-        max_length=100,
-        blank=False,
-        null=False)
 
     color = models.CharField(
         max_length=30,
