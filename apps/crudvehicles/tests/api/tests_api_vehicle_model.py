@@ -6,6 +6,7 @@ from django.urls import reverse
 from rest_framework import status
 from django.utils.http import urlencode
 import json
+from annoying.functions import get_object_or_None
 
 
 class TestVehicleModelMotorcycleListApi(TestCase):
@@ -252,3 +253,54 @@ class TestVehicleModelUpdateApi(TestCase):
         serializer = VehicleModelSerializer(vehicle_model)
 
         self.assertEqual(response.data, serializer.data)
+
+
+
+class TestVehicleModelDeleteApi(TestCase):
+
+    def setUp(self):
+        auto_maker = AutoMaker.objects.create(
+            name='Honda'
+        )
+
+        self.model_car_delete = VehicleModel.objects.create(
+            name='Fit',
+            model=ModelsTypesChoices.car,
+            engine=1.0,
+            automaker=auto_maker
+        )
+
+        self.model_motorcycle_delete = VehicleModel.objects.create(
+            name='Biz',
+            model=ModelsTypesChoices.motorcycle,
+            engine=150,
+            automaker=auto_maker
+        )
+    
+    def test_update_vehicle_model_car(self):
+
+        url = reverse('vehicles:VehicleModel-detail',
+                      kwargs={'pk': self.model_car_delete.pk})
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        vehicle_model = get_object_or_None(VehicleModel, id=self.model_car_delete.pk)        
+        self.assertEqual(None, vehicle_model)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_vehicle_model_motorcyle(self):
+
+        url = reverse('vehicles:VehicleModel-detail',
+                      kwargs={'pk': self.model_motorcycle_delete.pk})
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        vehicle_model = get_object_or_None(VehicleModel, id=self.model_motorcycle_delete.pk)        
+        self.assertEqual(None, vehicle_model)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
