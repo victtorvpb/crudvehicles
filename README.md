@@ -14,7 +14,7 @@
 
 ## Execute project
 
-*`python manage.py loaddata fixture/dump.json`
+* `python manage.py loaddata fixture/dump.json`
 
 * `python manage.py runserver`
 
