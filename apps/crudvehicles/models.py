@@ -12,7 +12,7 @@ class AutoMaker(models.Model):
 
 
 class VehicleModel(models.Model):
-    
+
     name = models.CharField(
         max_length=100,
         blank=False,
@@ -47,8 +47,11 @@ class Vehicle(models.Model):
         null=False,
         blank=False,
         default=0)
-        
+
     model = models.ForeignKey(
         VehicleModel,
         related_name='vehicle_model',
         on_delete=models.PROTECT)
+
+    def __str__(self):
+        return 'Model {} -  Color {}'.format(self.model.name, self.color)
