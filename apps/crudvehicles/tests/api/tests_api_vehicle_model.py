@@ -343,7 +343,7 @@ class TestVehicleModelDeleteApi(TestCase):
             automaker=auto_maker
         )
 
-    def test_update_vehicle_model_car(self):
+    def test_delete_vehicle_model_car(self):
 
         url = reverse('vehicles:VehicleModel-detail',
                       kwargs={'pk': self.model_car_delete.pk})
@@ -358,7 +358,7 @@ class TestVehicleModelDeleteApi(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_update_vehicle_model_motorcyle(self):
+    def test_delete_vehicle_model_motorcyle(self):
 
         url = reverse('vehicles:VehicleModel-detail',
                       kwargs={'pk': self.model_motorcycle_delete.pk})
