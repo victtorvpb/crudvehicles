@@ -16,6 +16,7 @@ pytest-django = "*"
 django-filter = "*"
 djangorestframework-filters = "*"
 django-annoying = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.6"
