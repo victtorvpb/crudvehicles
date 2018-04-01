@@ -17,25 +17,26 @@ class TestModels(TestCase):
         )
 
         self.vehicle_model_car = VehicleModel.objects.create(
+            name='Civic',
             model=ModelsTypesChoices.car,
             engine=1.0,
             automaker=self.auto_maker
         )
 
         self.vehicle_model_motorcycle = VehicleModel.objects.create(
+            name='CG',
             model=ModelsTypesChoices.motorcycle,
             engine=150,
             automaker=self.auto_maker
         )
 
         self.vehicle_motorcycle = Vehicle.objects.create(
-            name='CG',
+            
             color='Black',
             model=self.vehicle_model_motorcycle,
         )
 
         self.vehicle_car = Vehicle.objects.create(
-            name='Civic',
             color='Red',
             model=self.vehicle_model_car,
         )
@@ -46,25 +47,26 @@ class TestModels(TestCase):
 
     def test_insert_model_vehicle_model_car(self):
 
+        self.assertEqual(self.vehicle_model_car.name, 'Civic')
         self.assertEqual(self.vehicle_model_car.engine, 1.0)
         self.assertEqual(self.vehicle_model_car.model, ModelsTypesChoices.car)
 
     def test_insert_model_vehicle_model_motorcycle(self):
 
+        self.assertEqual(self.vehicle_model_motorcycle.name, 'CG')
         self.assertEqual(self.vehicle_model_motorcycle.engine, 150)
         self.assertEqual(self.vehicle_model_motorcycle.model,
                          ModelsTypesChoices.motorcycle)
 
     def test_insert_vehicle_motorcycle(self):
 
-        self.assertEqual(self.vehicle_motorcycle.name, 'CG')
+
         self.assertEqual(self.vehicle_motorcycle.color, 'Black')
         self.assertEqual(self.vehicle_motorcycle.model,
                          self.vehicle_model_motorcycle)
 
     def test_insert_vehicle_car(self):
 
-        self.assertEqual(self.vehicle_car.name, 'Civic')
         self.assertEqual(self.vehicle_car.color, 'Red')
         self.assertEqual(self.vehicle_car.model, self.vehicle_model_car)
     
