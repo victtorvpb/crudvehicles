@@ -19,4 +19,4 @@
 * Access [http://localhost:8000/api/](http://localhost:8000/api/) for list all urls
 
 ## Execute test
-* `make run-test`
+* `pytest -v `
