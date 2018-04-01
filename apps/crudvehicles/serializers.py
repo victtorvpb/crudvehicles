@@ -16,7 +16,7 @@ class AutoMakerSerializer(serializers.ModelSerializer):
 class VehicleModelSerializer(serializers.ModelSerializer):
 
     repr = serializers.SerializerMethodField()
-    # model = serializers.SerializerMethodField()
+    
 
     class Meta:
         model = VehicleModel
