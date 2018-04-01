@@ -42,6 +42,12 @@ class Vehicle(models.Model):
         max_length=30,
         blank=False,
         null=False)
+
+    mileage = models.BigIntegerField(
+        null=False,
+        blank=False,
+        default=0)
+        
     model = models.ForeignKey(
         VehicleModel,
         related_name='vehicle_model',
