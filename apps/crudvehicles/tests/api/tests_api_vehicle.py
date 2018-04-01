@@ -49,6 +49,12 @@ class TestVehicleListApi(TestCase):
 
         self.objects_filter_engine_gte = Vehicle.objects.filter(
             model__engine__gte=1.2)
+        
+        self.objects_filter_mileage_lte = Vehicle.objects.filter(
+            mileage__lte=100)
+
+        self.objects_filter_mileage_gte = Vehicle.objects.filter(
+            mileage__gte=200)
 
     def test_list_vehicle(self):
         url = reverse('vehicles:Vehicle-list')
@@ -123,6 +129,34 @@ class TestVehicleListApi(TestCase):
         url = '{}?{}'.format(url, query)
         response = self.client.get(url)
         vehicle_model = self.objects_filter_engine_gte
+        serializer = VehicleSerializer(vehicle_model, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_filter_mileage_less(self):
+        url = reverse('vehicles:Vehicle-list')
+        query = urlencode({
+            'mileage__lte': 100
+        })
+
+        url = '{}?{}'.format(url, query)
+        response = self.client.get(url)
+        vehicle_model = self.objects_filter_mileage_lte
+        serializer = VehicleSerializer(vehicle_model, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_filter_mileage_greater(self):
+        url = reverse('vehicles:Vehicle-list')
+        query = urlencode({
+            'mileage__gte': 200
+        })
+
+        url = '{}?{}'.format(url, query)
+        response = self.client.get(url)
+        vehicle_model = self.objects_filter_mileage_gte
         serializer = VehicleSerializer(vehicle_model, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
