@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AutoMaker, VehicleModel
+from .models import AutoMaker, VehicleModel, Vehicle
 
 
 class AutoMakerSerializer(serializers.ModelSerializer):
@@ -16,7 +16,6 @@ class AutoMakerSerializer(serializers.ModelSerializer):
 class VehicleModelSerializer(serializers.ModelSerializer):
 
     repr = serializers.SerializerMethodField()
-    
 
     class Meta:
         model = VehicleModel
@@ -26,3 +25,13 @@ class VehicleModelSerializer(serializers.ModelSerializer):
         return 'AutoMaker {} - engine {} - model - {}'.format(
             obj.automaker.name, obj.engine, obj.get_model_display())
 
+
+class VehicleSerializer(serializers.ModelSerializer):
+    repr = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Vehicle
+        fields = ('id', 'model', 'color', 'mileage', 'repr')
+
+    def get_repr(self, obj):
+        return str(obj)
