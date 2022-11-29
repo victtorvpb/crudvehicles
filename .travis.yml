@@ -1,7 +1,10 @@
 sudo: false
-dist: trusty
+dist: xenial
 cache: pip
 language: python
+cache:
+  apt: true
+    - sqlite3
 python:
   - "3.6"
 install:
