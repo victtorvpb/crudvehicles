@@ -1,5 +1,5 @@
 # crudvehicles
-[![Build Status](https://travis-ci.org/victorpb/crudvehicles.svg?branch=master)](https://travis-ci.org/victorpb/crudvehicles)
+[![Build Status](https://app.travis-ci.com/victtorvpb/crudvehicles.svg?branch=main)](https://app.travis-ci.com/victtorvpb/crudvehicles)
 ## Requirements
 * Python 3.6
 * [pipenv](https://docs.pipenv.org/)
